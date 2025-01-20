@@ -1,22 +1,26 @@
 server:
   port: ${PORT:8080}
 
+  error:
+    include-message: always
+    whitelabel:
+      enabled: true
+
 logging:
   level:
     root: ${APP_SERVICE_ROOT_LOG_LEVEL:INFO}
     org.springframework: ${APP_SERVICE_SPRING_LOG_LEVEL:INFO}
 
 spring:
-
-  threads:
-    virtual:
-      enabled: true
+  application:
+    name: ${APP_SERVICE_NAME:test-backend-app}
 
   config:
     import: optional:file:.env[.properties]
 
-  application:
-    name: ${APP_SERVICE_NAME:test-backend-app}
+  threads:
+    virtual:
+      enabled: true
 
   jpa:
     # enable logging of SQL statements.

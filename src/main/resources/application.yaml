@@ -1,0 +1,55 @@
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    root: ${APP_SERVICE_ROOT_LOG_LEVEL:INFO}
+    org.springframework: ${APP_SERVICE_SPRING_LOG_LEVEL:INFO}
+
+spring:
+
+  threads:
+    virtual:
+      enabled: true
+
+  config:
+    import: optional:file:.env[.properties]
+
+  application:
+    name: ${APP_SERVICE_NAME:test-backend-app}
+
+  jpa:
+    # enable logging of SQL statements.
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 50
+
+  data:
+    mongodb:
+      uri: ${APP_SERVICE_MONGODB_URI:uri}
+      database: ${APP_SERVICE_MONGODB_DATABASE:test-backend-db}
+      auto-index-creation: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+
+springdoc:
+  swagger-ui:
+    path: /api/documentation
+
+sentry:
+  dsn: ${APP_SERVICE_SENTRY_DSN:}
+  # Set traces-sample-rate to 1.0 to capture 100% of transactions for tracing.
+  # We recommend adjusting this value in production.
+  traces-sample-rate: ${APP_SERVICE_SENTRY_TRACE_SAMPLE_RATE:1.0}
+
+jwt:
+  app:
+    enable_security: ${APP_SERVICE_ENABLE_SECURITY:true}
+    secret: ${APP_SERVICE_JWT_SECRET_KEY:jwt_secret_key}

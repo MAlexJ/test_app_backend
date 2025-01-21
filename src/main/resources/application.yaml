@@ -37,6 +37,10 @@ spring:
       auto-index-creation: true
 
 management:
+  endpoint:
+    health:
+      show-details: always
+      access: read_only
   endpoints:
     web:
       exposure:

@@ -12,10 +12,12 @@ import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Slf4j
 @Configuration
 @EnableMongoAuditing
+@EnableMongoRepositories(basePackages = "com.malex.test_app_backend.repository")
 @RequiredArgsConstructor
 public class MongoConfiguration extends AbstractMongoClientConfiguration {
 
@@ -40,5 +42,10 @@ public class MongoConfiguration extends AbstractMongoClientConfiguration {
     var uri = Objects.requireNonNull(mongoProperties.getUri(), "Database URI is required");
     log.info("MongoDb configuration URI property: {}", uri);
     return MongoClients.create(uri);
+  }
+
+  @Override
+  protected boolean autoIndexCreation() {
+    return true;
   }
 }

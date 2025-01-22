@@ -28,7 +28,7 @@ public class UserApiController {
 
   private final UserService userService;
 
-  @Operation(summary = "Get user by uuid", description = "Returns user as per uuid")
+  @Operation(description = "Returns user as per uuid")
   @ApiResponses(
       value = {
         @ApiResponse(responseCode = "200", description = "Ok"),

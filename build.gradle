@@ -5,11 +5,22 @@ plugins {
     id "com.github.ben-manes.versions" version "${githubBenManesVersion}"
 }
 
+apply from: 'gradle/md5-hash.gradle'
+
 group = "${groupId}"
 version = "${versionId}"
 
 java {
     sourceCompatibility = "${javaVersion}"
+}
+
+springBoot {
+    // allow BuildProperties bean to be used to get project info: version, name, time and group
+    buildInfo {
+        properties {
+            additional = ['md5.hash.project': calculateMD5Hash(file('src')),]
+        }
+    }
 }
 
 configurations {

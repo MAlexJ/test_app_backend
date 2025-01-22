@@ -5,7 +5,7 @@
 * Java 23
 * Springboot 3.4.1
 * Gradle 8.12
-* Mongo database
+* Mongo DB v.8.0.4
 * render.com - app hosting service
 * Sentry - distributed tracing
 * UptimeRobot - monitoring service
@@ -28,6 +28,9 @@ APP_SERVICE_MONGODB_DATABASE=test-backend-db
 
 APP_SERVICE_ENABLE_SECURITY=false or true
 APP_SERVICE_JWT_SECRET_KEY=secret
+
+WEB_APP_SECRET_KEY=__key___
+WEB_APP_BOT_TOKEN=__bot_token__
 
 APP_SERVICE_SENTRY_DSN=__sentry.io__
 APP_SERVICE_SENTRY_TRACE_SAMPLE_RATE=1.0

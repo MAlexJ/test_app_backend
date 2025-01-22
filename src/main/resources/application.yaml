@@ -39,6 +39,12 @@ spring:
       uri: ${APP_SERVICE_MONGODB_URI:uri}
       database: ${APP_SERVICE_MONGODB_DATABASE:test-backend-db}
 
+webapp:
+  secret:
+    key: ${WEB_APP_SECRET_KEY:WebAppData}
+  bot:
+    token: ${WEB_APP_BOT_TOKEN:fake_token}
+
 management:
   endpoint:
     health:

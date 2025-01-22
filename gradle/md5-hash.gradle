@@ -1,0 +1,19 @@
+import java.security.MessageDigest
+
+ext.calculateMD5Hash = { File dir ->
+    MessageDigest md5Digest = MessageDigest.getInstance("MD5")
+
+    dir.eachFileRecurse { file ->
+        if (file.isFile()) {
+            file.withInputStream { fis ->
+                byte[] buffer = new byte[8192]
+                int bytesRead
+                while ((bytesRead = fis.read(buffer)) != -1) {
+                    md5Digest.update(buffer, 0, bytesRead)
+                }
+            }
+        }
+    }
+
+    md5Digest.digest().collect { String.format("%02x", it) }.join()
+}

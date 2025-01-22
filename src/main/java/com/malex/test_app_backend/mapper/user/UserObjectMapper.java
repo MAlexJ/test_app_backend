@@ -25,6 +25,9 @@ public interface UserObjectMapper {
   @Mapping(target = "updated", ignore = true)
   UserRefEntity entityToResponse(UserRefRequest request);
 
+  /*
+   * Many to One: Bidirectional Relationship
+   */
   List<UserRefEntity> requestToEntity(List<UserRefRequest> request);
 
   @Mapping(target = "id", ignore = true)

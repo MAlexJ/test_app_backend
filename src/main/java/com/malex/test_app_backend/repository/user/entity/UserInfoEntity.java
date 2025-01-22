@@ -1,16 +1,16 @@
 package com.malex.test_app_backend.repository.user.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
 @Document(collection = "user_info")
 @TypeAlias("UserInfo")
 public class UserInfoEntity {
 
-  @MongoId private String id;
+  @Id private String id;
 
   private String name;
 

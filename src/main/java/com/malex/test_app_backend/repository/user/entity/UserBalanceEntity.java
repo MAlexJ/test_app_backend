@@ -3,17 +3,17 @@ package com.malex.test_app_backend.repository.user.entity;
 import java.time.LocalDateTime;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
 @Document(collection = "user_balance")
 @TypeAlias("UserBalance")
 public class UserBalanceEntity {
 
-  @MongoId private String id;
+  @Id private String id;
 
   @Indexed(unique = true)
   private Long userId;

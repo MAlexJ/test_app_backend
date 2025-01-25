@@ -2,10 +2,12 @@ package com.malex.test_app_backend.service.user;
 
 import com.malex.test_app_backend.controller.user.dto.UserRequest;
 import com.malex.test_app_backend.controller.user.dto.UserResponse;
+import com.malex.test_app_backend.controller.user.dto.UsersResponse;
 import com.malex.test_app_backend.mapper.user.UserObjectMapper;
 import com.malex.test_app_backend.repository.user.UserRefRepository;
 import com.malex.test_app_backend.repository.user.UserRepository;
 import com.malex.test_app_backend.repository.user.entity.UserEntity;
+import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +47,11 @@ public class UserService {
         .saveAll(userEntity.getReferences())
         .forEach(ref -> log.trace("Saving user ref {} to user entity {}", ref.getId(), userEntity));
     return userEntity;
+  }
+
+  public UsersResponse findAll() {
+    List<UserResponse> users =
+        userRepository.findAll().stream().map(userObjectMapper::entityToResponse).toList();
+    return new UsersResponse(users);
   }
 }

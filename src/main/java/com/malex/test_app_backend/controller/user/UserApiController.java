@@ -2,6 +2,7 @@ package com.malex.test_app_backend.controller.user;
 
 import com.malex.test_app_backend.controller.user.dto.UserRequest;
 import com.malex.test_app_backend.controller.user.dto.UserResponse;
+import com.malex.test_app_backend.controller.user.dto.UsersResponse;
 import com.malex.test_app_backend.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -48,6 +49,11 @@ public class UserApiController {
         .findById(uuid)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
+  }
+
+  @GetMapping
+  public ResponseEntity<UsersResponse> findAll() {
+    return ResponseEntity.ok(userService.findAll());
   }
 
   @PostMapping

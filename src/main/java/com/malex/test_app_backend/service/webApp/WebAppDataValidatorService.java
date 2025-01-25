@@ -7,7 +7,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class WebAppDataValidatorService {
 
-  private static final String SECURITY_TEMPLATE = "%s%s";
-
   @Setter(AccessLevel.PACKAGE)
   @Value("${webapp.secret.key}")
   private String secretKeySuffix;
@@ -28,13 +25,18 @@ public class WebAppDataValidatorService {
   @Value("${webapp.bot.token}")
   private String botToken;
 
+  /*
+   * tgInitData is WebAppInitData
+   * This object contains data that is transferred to the Mini App when it is opened.
+   * It is empty if the Mini App was launched from a keyboard button or from inline mode.
+   */
   public boolean validateData(String tgInitData) {
     try {
       String[] parts = tgInitData.split("&hash=");
       String hashReceived = parts[1];
       String dataWithoutHash = parts[0];
       String decodedData = URLDecoder.decode(dataWithoutHash, StandardCharsets.UTF_8);
-      String secretKey =botToken + secretKeySuffix;
+      String secretKey = botToken + secretKeySuffix;
 
       String calculatedHash = calculateHMAC(decodedData, secretKey);
       log.info("Calculated hash: {}", calculatedHash);

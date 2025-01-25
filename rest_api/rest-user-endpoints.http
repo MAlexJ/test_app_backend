@@ -8,3 +8,6 @@ Content-Type: application/json
 
 ### Grt user by id
 GET http://localhost:8080/api/v1/users/679098f74a25c756e5e00bae
+
+### Grt user by id
+GET http://localhost:8080/api/v1/users

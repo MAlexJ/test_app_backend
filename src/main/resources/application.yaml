@@ -66,6 +66,10 @@ sentry:
   # We recommend adjusting this value in production.
   traces-sample-rate: ${APP_SERVICE_SENTRY_TRACE_SAMPLE_RATE:1.0}
 
+cors:
+  frontend:
+    url: ${APP_SERVICE_FRONTEND_URL:"localhost:3000"}
+
 jwt:
   app:
     enable_security: ${APP_SERVICE_ENABLE_SECURITY:true}

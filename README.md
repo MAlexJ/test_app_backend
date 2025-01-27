@@ -34,6 +34,8 @@ WEB_APP_BOT_TOKEN=__bot_token__
 
 APP_SERVICE_SENTRY_DSN=__sentry.io__
 APP_SERVICE_SENTRY_TRACE_SAMPLE_RATE=1.0
+
+APP_SERVICE_FRONTEND_URLS:"http://localhost:3000", "http://localhost:5000" 
 ```
 
 ### Spring boot

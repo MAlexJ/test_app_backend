@@ -29,13 +29,14 @@ APP_SERVICE_MONGODB_DATABASE=test-backend-db
 APP_SERVICE_ENABLE_SECURITY=false or true
 APP_SERVICE_JWT_SECRET_KEY=secret
 
-WEB_APP_SECRET_KEY=__key___
-WEB_APP_BOT_TOKEN=__bot_token__
-
-APP_SERVICE_SENTRY_DSN=__sentry.io__
+APP_SERVICE_SENTRY_DSN=__sentry.io__ or empty
 APP_SERVICE_SENTRY_TRACE_SAMPLE_RATE=1.0
 
-APP_SERVICE_FRONTEND_URLS:"http://localhost:3000", "http://localhost:5000" 
+APP_SERVICE_FRONTEND_URLS:"http://localhost:3000", "http://localhost:5000", "UI_URL" 
+
+APP_SERVICE_TELEGRAM_WEB_APP_SECRET_KEY=__key___
+APP_SERVICE_TELEGRAM_BOT_TOKEN=_bot_token__
+APP_SERVICE_TELEGRAM_TEST_INIT_DATA=user=....first_name.... or empty
 ```
 
 ### Spring boot

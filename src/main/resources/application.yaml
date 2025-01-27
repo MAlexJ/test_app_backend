@@ -40,10 +40,11 @@ spring:
       database: ${APP_SERVICE_MONGODB_DATABASE:test-backend-db}
 
 webapp:
-  secret:
-    key: ${WEB_APP_SECRET_KEY:WebAppData}
-  bot:
-    token: ${WEB_APP_BOT_TOKEN:fake_token}
+  telegram:
+    secret:
+      key: ${APP_SERVICE_TELEGRAM_WEB_APP_SECRET_KEY:secret_key}
+    bot:
+      token: ${APP_SERVICE_TELEGRAM_BOT_TOKEN:fake_token}
 
 management:
   endpoint:

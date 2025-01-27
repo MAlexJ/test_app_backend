@@ -1,4 +1,4 @@
-package com.malex.test_app_backend.controller.user.dto;
+package com.malex.test_app_backend.controller.user.dto.ref;
 
 import java.time.LocalDateTime;
 

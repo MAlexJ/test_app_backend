@@ -21,6 +21,8 @@ public class UserEntity {
   @Indexed(unique = true)
   private Long userId;
 
+  @DocumentReference private UserInfoEntity userInfo;
+
   @DocumentReference private List<UserRefEntity> references;
 
   @CreatedDate private LocalDateTime created;

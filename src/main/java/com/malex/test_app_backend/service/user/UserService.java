@@ -4,6 +4,7 @@ import com.malex.test_app_backend.controller.user.dto.UserRequest;
 import com.malex.test_app_backend.controller.user.dto.UserResponse;
 import com.malex.test_app_backend.controller.user.dto.UsersResponse;
 import com.malex.test_app_backend.mapper.user.UserObjectMapper;
+import com.malex.test_app_backend.repository.user.UserInfoRepository;
 import com.malex.test_app_backend.repository.user.UserRefRepository;
 import com.malex.test_app_backend.repository.user.UserRepository;
 import com.malex.test_app_backend.repository.user.entity.UserEntity;
@@ -23,6 +24,7 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final UserRefRepository userRefRepository;
+  private final UserInfoRepository userInfoRepository;
 
   public Optional<UserResponse> findById(String id) {
     return userRepository.findById(id).map(userObjectMapper::entityToResponse);
@@ -32,8 +34,19 @@ public class UserService {
   public Optional<UserResponse> createUser(UserRequest userRequest) {
     return Optional.of(userObjectMapper.requestToEntity(userRequest))
         .map(this::saveAllUserReverences)
+        .map(this::saveUserInfo)
         .map(userRepository::save)
         .map(userObjectMapper::entityToResponse);
+  }
+
+  private UserEntity saveUserInfo(UserEntity userEntity) {
+    Optional.ofNullable(userEntity.getUserInfo())
+        .ifPresent(
+            entity -> {
+              var persistEntity = userInfoRepository.save(entity);
+              log.trace("Saving user info - {}", persistEntity);
+            });
+    return userEntity;
   }
 
   /*
@@ -45,7 +58,7 @@ public class UserService {
   private UserEntity saveAllUserReverences(UserEntity userEntity) {
     userRefRepository
         .saveAll(userEntity.getReferences())
-        .forEach(ref -> log.trace("Saving user ref {} to user entity {}", ref.getId(), userEntity));
+        .forEach(persistEntity -> log.trace("Saving user ref - {}", persistEntity));
     return userEntity;
   }
 

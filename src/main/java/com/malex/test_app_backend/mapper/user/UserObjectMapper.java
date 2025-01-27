@@ -1,10 +1,13 @@
 package com.malex.test_app_backend.mapper.user;
 
-import com.malex.test_app_backend.controller.user.dto.UserRefRequest;
-import com.malex.test_app_backend.controller.user.dto.UserRefResponse;
+import com.malex.test_app_backend.controller.user.dto.ref.UserRefRequest;
+import com.malex.test_app_backend.controller.user.dto.ref.UserRefResponse;
 import com.malex.test_app_backend.controller.user.dto.UserRequest;
 import com.malex.test_app_backend.controller.user.dto.UserResponse;
+import com.malex.test_app_backend.controller.user.dto.info.UserInfoRequest;
+import com.malex.test_app_backend.controller.user.dto.info.UserInfoResponse;
 import com.malex.test_app_backend.repository.user.entity.UserEntity;
+import com.malex.test_app_backend.repository.user.entity.UserInfoEntity;
 import com.malex.test_app_backend.repository.user.entity.UserRefEntity;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +23,10 @@ public interface UserObjectMapper {
 
   UserRefResponse entityToResponse(UserRefEntity entity);
 
+  //  @Mapping(target = "isPremium", source = "isPremium")
+  @Mapping(source = "premium", target = "isPremium")
+  UserInfoResponse entityToResponse(UserInfoEntity entity);
+
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "created", ignore = true)
   @Mapping(target = "updated", ignore = true)
@@ -30,8 +37,14 @@ public interface UserObjectMapper {
    */
   List<UserRefEntity> requestToEntity(List<UserRefRequest> request);
 
+  @Mapping(target = "wallet", ignore = true)
+  @Mapping(source = "isPremium", target = "premium")
+  UserInfoEntity requestToEntity(UserInfoRequest request);
+
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "created", ignore = true)
+  @Mapping(target = "userInfo.userId", source = "userId")
+  @Mapping(target = "userInfo.firstName", source = "firstName")
   @Mapping(target = "updated", ignore = true)
   @Mapping(
       target = "references",

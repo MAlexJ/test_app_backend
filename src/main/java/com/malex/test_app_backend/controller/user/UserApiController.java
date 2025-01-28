@@ -2,23 +2,25 @@ package com.malex.test_app_backend.controller.user;
 
 import com.malex.test_app_backend.controller.user.dto.UserRequest;
 import com.malex.test_app_backend.controller.user.dto.UserResponse;
-import com.malex.test_app_backend.controller.user.dto.UsersResponse;
 import com.malex.test_app_backend.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.time.LocalDateTime;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @RestController
@@ -29,31 +31,24 @@ public class UserApiController {
 
   private final UserService userService;
 
-  @Operation(description = "Returns user as per uuid")
+  @Operation(description = "Returns user as per tgInitData")
   @ApiResponses(
       value = {
         @ApiResponse(responseCode = "200", description = "Ok"),
-        @ApiResponse(responseCode = "404", description = "Not found")
+        @ApiResponse(responseCode = "401", description = "Unauthorized")
       })
-  @GetMapping("/{uuid}")
-  public ResponseEntity<UserResponse> findById(
-      @PathVariable("uuid")
-          @Parameter(name = "uuid", description = "User uuid", example = "678ec28a4b561b268832b726")
-          String uuid) {
-
-    if (uuid.equalsIgnoreCase("XXX")) {
-      throw new RuntimeException("This is a test: " + LocalDateTime.now());
-    }
-
-    return userService
-        .findById(uuid)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
-
-  @GetMapping
-  public ResponseEntity<UsersResponse> findAll() {
-    return ResponseEntity.ok(userService.findAll());
+  @GetMapping()
+  public ResponseEntity<UserResponse> findOrCreateUser(
+      @Parameter(name = "tgInitData", description = "Telegram.WebApp.initData value")
+          @RequestParam(value = "tgInitData", required = false)
+          Optional<String> tgInitDataOpt) {
+    return tgInitDataOpt
+        .filter(StringUtils::isNotBlank)
+        .map(tgInitData -> ResponseEntity.ok(userService.findByIdOrCreateNewUser(tgInitData)))
+        .orElseThrow(
+            () ->
+                new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED, "Not Found `tgInitData` in request parameter"));
   }
 
   @PostMapping

@@ -67,4 +67,8 @@ public class UserService {
         userRepository.findAll().stream().map(userObjectMapper::entityToResponse).toList();
     return new UsersResponse(users);
   }
+
+  public UserResponse findByIdOrCreateNewUser(String tgData) {
+    return null;
+  }
 }

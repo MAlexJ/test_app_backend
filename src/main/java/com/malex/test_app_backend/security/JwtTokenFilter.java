@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -28,8 +30,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
       HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
     if (enableSecurity) {
-      var jwtToken = getJwtTokenFromAuthorizationHeader(request);
-      verifyJwtToken(jwtToken);
+      try {
+        var jwtToken = getJwtTokenFromAuthorizationHeader(request);
+        verifyJwtToken(jwtToken);
+      } catch (Exception e) {
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+        return;
+      }
     }
     chain.doFilter(request, response);
   }

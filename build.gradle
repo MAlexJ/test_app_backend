@@ -40,8 +40,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocOpenapiWeb}"
     implementation "com.nimbusds:nimbus-jose-jwt:${nimbusJwtVersion}"
-    // https://mvnrepository.com/artifact/commons-codec/commons-codec
-    implementation 'commons-codec:commons-codec:1.17.2'
+    implementation "commons-codec:commons-codec:${commonsCodecVersion}"
     implementation "io.sentry:sentry-spring-boot-starter-jakarta:${ioSentryVersion}"
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

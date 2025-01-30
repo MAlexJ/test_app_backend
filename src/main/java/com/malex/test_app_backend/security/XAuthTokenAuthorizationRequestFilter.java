@@ -25,12 +25,23 @@ public class XAuthTokenAuthorizationRequestFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
+
+    /*
+     * Allow preflight-requests (OPTIONS)
+     */
+    if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+      chain.doFilter(request, response);
+      return;
+    }
+
     try {
       var webAppUser = verifyClientAuthorizationHeader(request);
       request.setAttribute(WEB_APP_USER_ATTRIBUTE_KEY, webAppUser);
       chain.doFilter(request, response);
     } catch (ApplicationAuthorizationException e) {
-      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+      logger.warn("X-Auth-Token authorization error", e);
+      response.sendError(
+          HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()); // todo: in HTML format!!
     }
   }
 

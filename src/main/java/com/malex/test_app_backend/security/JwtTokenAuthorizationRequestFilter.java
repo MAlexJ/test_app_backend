@@ -17,6 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j
 public class JwtTokenAuthorizationRequestFilter extends OncePerRequestFilter {
 
+  public static final String AUTHORIZATION_HEADER = "Authorization";
+
   private final String jwtSecretKey;
 
   public JwtTokenAuthorizationRequestFilter(String jwtSecretKey) {
@@ -27,17 +29,28 @@ public class JwtTokenAuthorizationRequestFilter extends OncePerRequestFilter {
   protected void doFilterInternal(
       HttpServletRequest request, HttpServletResponse response, FilterChain chain)
       throws ServletException, IOException {
+
+    /*
+     * Allow preflight-requests (OPTIONS)
+     */
+    if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+      chain.doFilter(request, response);
+      return;
+    }
+
     try {
       var jwtToken = getJwtTokenFromAuthorizationHeader(request);
       verifyJwtToken(jwtToken);
       chain.doFilter(request, response);
     } catch (ApplicationAuthorizationException e) {
-      response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+      logger.warn("JWT Authorization authorization error", e);
+      response.sendError(
+          HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()); // todo: in HTML format!!
     }
   }
 
   private String getJwtTokenFromAuthorizationHeader(HttpServletRequest req) {
-    return Optional.ofNullable(req.getHeader("Authorization"))
+    return Optional.ofNullable(req.getHeader(AUTHORIZATION_HEADER))
         .filter(header -> header.startsWith("Bearer "))
         .map(header -> header.substring(7))
         .orElseThrow(

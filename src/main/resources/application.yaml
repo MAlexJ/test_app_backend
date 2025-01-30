@@ -10,6 +10,8 @@ logging:
   level:
     root: ${APP_SERVICE_ROOT_LOG_LEVEL:INFO}
     org.springframework: ${APP_SERVICE_SPRING_LOG_LEVEL:INFO}
+    org.springframework.web: ${APP_SERVICE_SPRING_WEB_LEVEL:INFO}
+
     # MongoDb: query
     org.springframework.data.mongodb.core.MongoTemplate: ${APP_SERVICE_MONGO_TEMPLATE_LOG_LEVEL:DEBUG}
     # MongoDb: N+1 queries for referenced collections

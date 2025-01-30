@@ -1,0 +1,186 @@
+{
+	"info": {
+		"_postman_id": "594454e3-409c-4ca5-b716-30dc54cee2ee",
+		"name": "test_backend_server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1029946"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "test",
+					"item": [
+						{
+							"name": "Unauthorized: X-Auth-Token header is missing",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/webapp/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"webapp",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unauthorized: invalid `tgInitData` data\"",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-Auth-Token",
+										"value": "wrong_token",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/api/webapp/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"webapp",
+										"users"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Find user by tgInitData or create new",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{tgInitData}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/webapp/users",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"webapp",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "info",
+			"item": [
+				{
+					"name": "test",
+					"item": [
+						{
+							"name": "Unauthorized: JWT token not found in request headers",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/info/build",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"info",
+										"build"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unauthorized: JWT token verification failed",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer wrong_token",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/api/info/build",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"info",
+										"build"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "App info",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authorization_jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/info/build",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"info",
+								"build"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

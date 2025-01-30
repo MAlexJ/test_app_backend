@@ -8,6 +8,8 @@ import com.malex.test_app_backend.controller.webapp.user.dto.UsersResponse;
 import com.malex.test_app_backend.security.exception.ApplicationAuthorizationException;
 import com.malex.test_app_backend.service.user.UserService;
 import com.malex.test_app_backend.telegram.model.WebAppUser;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "User API")
 @RequestMapping("/api/webapp/users")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "X-Auth-Token-Auth")
 public class UserApiController {
 
   private final UserService userService;

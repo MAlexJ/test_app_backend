@@ -32,7 +32,6 @@ public class CorsMappingConfiguration implements WebMvcConfigurer {
             HttpMethod.GET.name(),
             HttpMethod.POST.name(),
             HttpMethod.PUT.name(),
-            HttpMethod.DELETE.name(),
             HttpMethod.OPTIONS.name())
         .allowedHeaders("*")
         // Set the list of response headers that an actual response might have and can be exposed.

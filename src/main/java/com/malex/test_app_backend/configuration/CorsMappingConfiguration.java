@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsMappingConfiguration implements WebMvcConfigurer {
 
-  public static final String API_URL_PATTERN = "/api/**";
+  public static final String API_URL_PATTERN = "/**";
 
   @Value("${cors.allowed.frontend.urls}")
   private String[] allowedFrontendUrls;

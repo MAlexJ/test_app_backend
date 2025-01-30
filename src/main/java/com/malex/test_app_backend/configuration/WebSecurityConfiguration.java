@@ -34,15 +34,15 @@ public class WebSecurityConfiguration {
 
   private final WebAppInitDataService webAppInitDataService;
 
-  @Bean
-  @ConditionalOnProperty(prefix = "jwt.security", name = "enable", havingValue = "true")
-  public FilterRegistrationBean<JwtTokenAuthorizationRequestFilter>
-      jwtTokenAuthorizationRequestFilter() {
-    var registrationBean = new FilterRegistrationBean<JwtTokenAuthorizationRequestFilter>();
-    registrationBean.setFilter(new JwtTokenAuthorizationRequestFilter(jwtSecret));
-    registrationBean.addUrlPatterns(BOT_API_URL_PATTERN, INFO_API_URL_PATTERN);
-    return registrationBean;
-  }
+//  @Bean
+//  @ConditionalOnProperty(prefix = "jwt.security", name = "enable", havingValue = "true")
+//  public FilterRegistrationBean<JwtTokenAuthorizationRequestFilter>
+//      jwtTokenAuthorizationRequestFilter() {
+//    var registrationBean = new FilterRegistrationBean<JwtTokenAuthorizationRequestFilter>();
+//    registrationBean.setFilter(new JwtTokenAuthorizationRequestFilter(jwtSecret));
+//    registrationBean.addUrlPatterns(BOT_API_URL_PATTERN, INFO_API_URL_PATTERN);
+//    return registrationBean;
+//  }
 
   @Bean
   public FilterRegistrationBean<XAuthTokenAuthorizationRequestFilter>

@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.info.BuildProperties;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Application API")
 @RequiredArgsConstructor
 @RequestMapping("/api/info")
-@SecurityRequirement(name = "JWT-Bearer-Auth")
 public class AppInfoRestController {
 
   private static final String MD5_HASH_PROJECT = "md5.hash.project";

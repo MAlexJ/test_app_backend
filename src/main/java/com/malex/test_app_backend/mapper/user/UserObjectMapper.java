@@ -1,11 +1,11 @@
 package com.malex.test_app_backend.mapper.user;
 
-import com.malex.test_app_backend.controller.user.dto.ref.UserRefRequest;
-import com.malex.test_app_backend.controller.user.dto.ref.UserRefResponse;
-import com.malex.test_app_backend.controller.user.dto.UserRequest;
-import com.malex.test_app_backend.controller.user.dto.UserResponse;
-import com.malex.test_app_backend.controller.user.dto.info.UserInfoRequest;
-import com.malex.test_app_backend.controller.user.dto.info.UserInfoResponse;
+import com.malex.test_app_backend.controller.webapp.user.dto.ref.UserRefRequest;
+import com.malex.test_app_backend.controller.webapp.user.dto.ref.UserRefResponse;
+import com.malex.test_app_backend.controller.webapp.user.dto.UserRequest;
+import com.malex.test_app_backend.controller.webapp.user.dto.UserResponse;
+import com.malex.test_app_backend.controller.webapp.user.dto.info.UserInfoRequest;
+import com.malex.test_app_backend.controller.webapp.user.dto.info.UserInfoResponse;
 import com.malex.test_app_backend.repository.user.entity.UserEntity;
 import com.malex.test_app_backend.repository.user.entity.UserInfoEntity;
 import com.malex.test_app_backend.repository.user.entity.UserRefEntity;

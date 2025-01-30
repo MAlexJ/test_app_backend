@@ -1,4 +1,4 @@
-package com.malex.test_app_backend.controller.user.dto.info;
+package com.malex.test_app_backend.controller.webapp.user.dto.info;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

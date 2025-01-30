@@ -1,8 +1,8 @@
 package com.malex.test_app_backend.service.user;
 
-import com.malex.test_app_backend.controller.user.dto.UserRequest;
-import com.malex.test_app_backend.controller.user.dto.UserResponse;
-import com.malex.test_app_backend.controller.user.dto.UsersResponse;
+import com.malex.test_app_backend.controller.webapp.user.dto.UserRequest;
+import com.malex.test_app_backend.controller.webapp.user.dto.UserResponse;
+import com.malex.test_app_backend.controller.webapp.user.dto.UsersResponse;
 import com.malex.test_app_backend.mapper.user.UserObjectMapper;
 import com.malex.test_app_backend.repository.user.UserInfoRepository;
 import com.malex.test_app_backend.repository.user.UserRefRepository;

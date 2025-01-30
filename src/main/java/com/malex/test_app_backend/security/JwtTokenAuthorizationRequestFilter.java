@@ -1,6 +1,6 @@
 package com.malex.test_app_backend.security;
 
-import com.malex.test_app_backend.security.exception.ClientAuthorizationException;
+import com.malex.test_app_backend.security.exception.ApplicationAuthorizationException;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.SignedJWT;
@@ -31,7 +31,7 @@ public class JwtTokenAuthorizationRequestFilter extends OncePerRequestFilter {
       var jwtToken = getJwtTokenFromAuthorizationHeader(request);
       verifyJwtToken(jwtToken);
       chain.doFilter(request, response);
-    } catch (ClientAuthorizationException e) {
+    } catch (ApplicationAuthorizationException e) {
       response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
     }
   }
@@ -41,7 +41,7 @@ public class JwtTokenAuthorizationRequestFilter extends OncePerRequestFilter {
         .filter(header -> header.startsWith("Bearer "))
         .map(header -> header.substring(7))
         .orElseThrow(
-            () -> new ClientAuthorizationException("JWT token not found in request headers"));
+            () -> new ApplicationAuthorizationException("JWT token not found in request headers"));
   }
 
   private void verifyJwtToken(String jwtToken) {
@@ -49,13 +49,13 @@ public class JwtTokenAuthorizationRequestFilter extends OncePerRequestFilter {
       var signedJWT = SignedJWT.parse(jwtToken);
       var verifier = new MACVerifier(jwtSecretKey);
       if (!signedJWT.verify(verifier)) {
-        throw new ClientAuthorizationException(
+        throw new ApplicationAuthorizationException(
             "Please provide a valid JWT token in the request headers");
       }
       // Token is valid you can extract claims from the JWT token if needed
     } catch (ParseException | JOSEException e) {
-      log.error("Error parsing JWT token", e);
-      throw new ClientAuthorizationException("JWT token verification failed");
+      log.warn("Error parsing JWT token: {}", jwtToken, e);
+      throw new ApplicationAuthorizationException("JWT token verification failed");
     }
   }
 }

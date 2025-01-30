@@ -1,8 +1,8 @@
-package com.malex.test_app_backend.controller.user.dto;
+package com.malex.test_app_backend.controller.webapp.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.malex.test_app_backend.controller.user.dto.info.UserInfoRequest;
-import com.malex.test_app_backend.controller.user.dto.ref.UserRefRequest;
+import com.malex.test_app_backend.controller.webapp.user.dto.info.UserInfoRequest;
+import com.malex.test_app_backend.controller.webapp.user.dto.ref.UserRefRequest;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;

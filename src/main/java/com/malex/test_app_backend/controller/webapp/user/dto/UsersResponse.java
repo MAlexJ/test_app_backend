@@ -1,4 +1,4 @@
-package com.malex.test_app_backend.controller.user.dto;
+package com.malex.test_app_backend.controller.webapp.user.dto;
 
 import java.util.List;
 

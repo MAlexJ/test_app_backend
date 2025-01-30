@@ -12,10 +12,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
-public class JwtTokenAuthorizationRequestFilter extends OncePerRequestFilter {
+public class JwtTokenAuthorizationRequestFilter extends AbstractAuthorizationRequestFilter {
 
   public static final String AUTHORIZATION_HEADER = "Authorization";
 
@@ -43,9 +42,8 @@ public class JwtTokenAuthorizationRequestFilter extends OncePerRequestFilter {
       verifyJwtToken(jwtToken);
       chain.doFilter(request, response);
     } catch (ApplicationAuthorizationException e) {
-      logger.warn("JWT Authorization authorization error", e);
-      response.sendError(
-          HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()); // todo: in HTML format!!
+      log.warn("JWT Authorization authorization error - {}", e.getMessage());
+      writeUnauthorizedJsonResponse(response, e);
     }
   }
 
@@ -67,7 +65,7 @@ public class JwtTokenAuthorizationRequestFilter extends OncePerRequestFilter {
       }
       // Token is valid you can extract claims from the JWT token if needed
     } catch (ParseException | JOSEException e) {
-      log.warn("Error parsing JWT token: {}", jwtToken, e);
+      log.warn("Error parsing JWT token: {} error: {}", jwtToken, e.getMessage());
       throw new ApplicationAuthorizationException("JWT token verification failed");
     }
   }

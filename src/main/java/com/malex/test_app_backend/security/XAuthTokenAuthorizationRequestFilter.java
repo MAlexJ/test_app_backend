@@ -10,11 +10,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
 
+@Slf4j
 @RequiredArgsConstructor
-public class XAuthTokenAuthorizationRequestFilter extends OncePerRequestFilter {
+public class XAuthTokenAuthorizationRequestFilter extends AbstractAuthorizationRequestFilter {
 
   private static final String X_AUTH_TOKEN_HEADER = "X-Auth-Token";
   public static final String WEB_APP_USER_ATTRIBUTE_KEY = "webAppUser";
@@ -39,9 +40,8 @@ public class XAuthTokenAuthorizationRequestFilter extends OncePerRequestFilter {
       request.setAttribute(WEB_APP_USER_ATTRIBUTE_KEY, webAppUser);
       chain.doFilter(request, response);
     } catch (ApplicationAuthorizationException e) {
-      logger.warn("X-Auth-Token authorization error", e);
-      response.sendError(
-          HttpServletResponse.SC_UNAUTHORIZED, e.getMessage()); // todo: in HTML format!!
+      log.warn("X-Auth-Token authorization error - {}", e.getMessage());
+      writeUnauthorizedJsonResponse(response, e);
     }
   }
 

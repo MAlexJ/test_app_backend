@@ -1,5 +1,7 @@
 package com.malex.test_app_backend.security;
 
+import static com.malex.test_app_backend.configuration.CorsMappingConfiguration.WEB_APP_USER_ATTRIBUTE_KEY;
+
 import com.malex.test_app_backend.security.exception.ApplicationAuthorizationException;
 import com.malex.test_app_backend.telegram.WebAppInitDataService;
 import com.malex.test_app_backend.telegram.model.WebAppUser;
@@ -17,8 +19,7 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class XAuthTokenAuthorizationRequestFilter extends AbstractAuthorizationRequestFilter {
 
-  private static final String X_AUTH_TOKEN_HEADER = "X-Auth-Token";
-  public static final String WEB_APP_USER_ATTRIBUTE_KEY = "webAppUser";
+  public static final String X_AUTH_TOKEN_HEADER = "X-Auth-Token";
 
   private final WebAppInitDataService service;
 
@@ -40,8 +41,7 @@ public class XAuthTokenAuthorizationRequestFilter extends AbstractAuthorizationR
       request.setAttribute(WEB_APP_USER_ATTRIBUTE_KEY, webAppUser);
       chain.doFilter(request, response);
     } catch (ApplicationAuthorizationException e) {
-      log.warn("X-Auth-Token authorization error - {}", e.getMessage());
-      writeUnauthorizedJsonResponse(response, e);
+      sendUnauthorizedJsonResponse(request, response, e);
     }
   }
 

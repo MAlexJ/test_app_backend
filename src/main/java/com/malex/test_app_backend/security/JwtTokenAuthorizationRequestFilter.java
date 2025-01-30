@@ -12,11 +12,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 
 @Slf4j
 public class JwtTokenAuthorizationRequestFilter extends AbstractAuthorizationRequestFilter {
-
-  public static final String AUTHORIZATION_HEADER = "Authorization";
 
   private final String jwtSecretKey;
 
@@ -42,17 +41,18 @@ public class JwtTokenAuthorizationRequestFilter extends AbstractAuthorizationReq
       verifyJwtToken(jwtToken);
       chain.doFilter(request, response);
     } catch (ApplicationAuthorizationException e) {
-      log.warn("JWT Authorization authorization error - {}", e.getMessage());
-      writeUnauthorizedJsonResponse(response, e);
+      sendUnauthorizedJsonResponse(request, response, e);
     }
   }
 
   private String getJwtTokenFromAuthorizationHeader(HttpServletRequest req) {
-    return Optional.ofNullable(req.getHeader(AUTHORIZATION_HEADER))
+    return Optional.ofNullable(req.getHeader(HttpHeaders.AUTHORIZATION))
         .filter(header -> header.startsWith("Bearer "))
         .map(header -> header.substring(7))
         .orElseThrow(
-            () -> new ApplicationAuthorizationException("JWT token not found in request headers"));
+            () ->
+                new ApplicationAuthorizationException(
+                    "Authorization JWT token is missing in request headers"));
   }
 
   private void verifyJwtToken(String jwtToken) {
@@ -61,12 +61,13 @@ public class JwtTokenAuthorizationRequestFilter extends AbstractAuthorizationReq
       var verifier = new MACVerifier(jwtSecretKey);
       if (!signedJWT.verify(verifier)) {
         throw new ApplicationAuthorizationException(
-            "Please provide a valid JWT token in the request headers");
+            "Invalid or missing JWT token. Please provide a valid JWT token in the Authorization header");
       }
       // Token is valid you can extract claims from the JWT token if needed
     } catch (ParseException | JOSEException e) {
       log.warn("Error parsing JWT token: {} error: {}", jwtToken, e.getMessage());
-      throw new ApplicationAuthorizationException("JWT token verification failed");
+      throw new ApplicationAuthorizationException(
+          "JWT token verification failed. Please check the token and try again");
     }
   }
 }

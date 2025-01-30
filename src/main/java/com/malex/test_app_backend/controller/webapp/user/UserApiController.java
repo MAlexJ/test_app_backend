@@ -1,6 +1,6 @@
 package com.malex.test_app_backend.controller.webapp.user;
 
-import static com.malex.test_app_backend.security.XAuthTokenAuthorizationRequestFilter.WEB_APP_USER_ATTRIBUTE_KEY;
+import static com.malex.test_app_backend.configuration.CorsMappingConfiguration.WEB_APP_USER_ATTRIBUTE_KEY;
 
 import com.malex.test_app_backend.controller.webapp.user.dto.UserRequest;
 import com.malex.test_app_backend.controller.webapp.user.dto.UserResponse;

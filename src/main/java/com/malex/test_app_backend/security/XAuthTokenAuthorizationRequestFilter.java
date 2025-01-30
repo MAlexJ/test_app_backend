@@ -59,6 +59,7 @@ public class XAuthTokenAuthorizationRequestFilter extends AbstractAuthorizationR
         .orElseThrow(
             () ->
                 new ApplicationAuthorizationException(
-                    "The X-Auth-Token header contains invalid `tgInitData` data"));
+                    "The X-Auth-Token header contains invalid `tgInitData` data: %s"
+                        .formatted(thInitData)));
   }
 }
